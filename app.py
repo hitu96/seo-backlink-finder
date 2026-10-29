@@ -7,7 +7,7 @@ from duckduckgo_search import DDGS
 st.set_page_config(page_title="Off-Page SEO Backlink Finder", page_icon="🔗", layout="wide")
 
 st.title("🔗 Off-Page SEO High-DA Backlink Finder")
-st.caption("Find verified High-DA free backlink sites and discover live niche-specific link-building opportunities.")
+st.caption("Find verified High-DA free backlink sites, harvest live niche opportunities, and check any website's guest posting eligibility.")
 
 # Curated Database of Verified High-DA Free Backlink Sites
 VERIFIED_SITES = [
@@ -43,9 +43,8 @@ with st.sidebar:
     opr_api_key = st.text_input(
         "OpenPageRank API Key (Optional)",
         type="password",
-        help="Get a free API key at domcop.com/openpagerank to fetch live Domain Authority scores (0-100) for any searched site."
+        help="Get a free API key at domcop.com/openpagerank to fetch live Domain Authority scores (0-100)."
     )
-    st.caption("💡 Without a key, Tab 1 shows verified DA scores, and Tab 2 still finds live niche backlink opportunities.")
 
 def get_live_authority(domains, api_key):
     """Fetches free Domain Authority equivalent (0-100) via OpenPageRank API."""
@@ -63,7 +62,11 @@ def get_live_authority(domains, api_key):
         pass
     return {}
 
-tab1, tab2 = st.tabs(["🏆 Verified High-DA Backlink Vault", "🔍 Live Niche Backlink Harvester"])
+tab1, tab2, tab3 = st.tabs([
+    "🏆 Verified High-DA Backlink Vault", 
+    "🔍 Live Niche Backlink Harvester", 
+    "✍️ Site Article / Guest Post Checker"
+])
 
 # TAB 1: CURATED HIGH-DA SITES
 with tab1:
@@ -105,15 +108,13 @@ with tab1:
                 st.write("")
                 st.link_button("🚀 Go to Site", row["URL"], use_container_width=True, type="primary")
 
-# TAB 2: LIVE NICHE BACKLINK FINDER
+# TAB 2: LIVE NICHE BACKLINK HARVESTER
 with tab2:
     st.subheader("Find Live Backlink Opportunities in Your Exact Niche")
-    st.write("Uses SEO search footprints to find blogs, directories, and resource pages accepting submissions in your industry.")
-
     with st.form("niche_search"):
         sc1, sc2, sc3 = st.columns([3, 3, 1])
         with sc1:
-            niche = st.text_input("Your Keyword / Niche", placeholder="e.g., SaaS, Fitness, Interior Design, EdTech")
+            niche = st.text_input("Your Keyword / Niche", placeholder="e.g., SaaS, Fitness, EdTech")
         with sc2:
             strategy = st.selectbox(
                 "Backlink Strategy (Search Footprint)",
@@ -155,8 +156,8 @@ with tab2:
                         st.success(f"Found {len(results)} live link-building pages for '{niche}'!")
                         for r in results:
                             domain = urlparse(r["href"]).netloc.replace("www.", "")
-                            da_val = da_scores.get(domain, "Add Free API Key in Sidebar")
-                            da_badge = f"⚡ Authority Score: {da_val}/100" if isinstance(da_val, int) else "🌐 Live Opportunity"
+                            da_val = da_scores.get(domain, "API Key Optional")
+                            da_badge = f"⚡ Authority: {da_val}/100" if isinstance(da_val, int) else "🌐 Live Page"
 
                             with st.container(border=True):
                                 c1, c2 = st.columns([4, 1])
@@ -169,3 +170,50 @@ with tab2:
                                     st.link_button("🔗 Open Page", r["href"], use_container_width=True)
                 except Exception as e:
                     st.error(f"Search error: {e}")
+
+# TAB 3: SITE ARTICLE / GUEST POST ELIGIBILITY CHECKER
+with tab3:
+    st.subheader("✍️ Check Any Website's Article & Guest Posting Eligibility")
+    st.write("Type a website name or domain below to verify if you can publish articles, write blogs, or submit guest posts on it.")
+
+    with st.form("site_checker_form"):
+        target_site = st.text_input("Enter Website Name or Domain", placeholder="e.g. dev.to, medium.com, techcrunch.com")
+        check_submitted = st.form_submit_button("🔍 Check Website Eligibility", type="primary", use_container_width=True)
+
+    if check_submitted:
+        if not target_site.strip():
+            st.warning("Please enter a website name or domain.")
+        else:
+            clean_input = target_site.lower().strip().replace("https://", "").replace("http://", "").replace("www.", "").split("/")[0]
+            
+            # Step 1: Check Local Verified Vault
+            matched_vault = [s for s in VERIFIED_SITES if clean_input in s["Site"].lower() or clean_input in s["URL"].lower()]
+
+            if matched_vault:
+                st.success(f"✅ Found **{target_site}** in our Verified High-DA Vault!")
+                for site in matched_vault:
+                    with st.container(border=True):
+                        badge = "🟢 DoFollow" if "DoFollow" in site["Link_Type"] else "🔵 NoFollow"
+                        st.markdown(f"### {site['Site']} &nbsp; `{badge}` &nbsp; `DA: {site['DA']}`")
+                        st.markdown(f"**Submission Type:** {site['Type']}")
+                        st.markdown(f"**Link Type:** {site['Link_Type']} &nbsp;•&nbsp; **Spam Score:** {site['Spam']}")
+                        st.markdown(f"**Best For:** {site['Niche']}")
+                        st.link_button(f"🚀 Start Writing on {site['Site']}", site["URL"], type="primary")
+            else:
+                # Step 2: Live Web Search Footprint Check for Custom Domains
+                st.info(f"'{target_site}' is not in the curated vault. Scanning the live web for article and guest post guidelines...")
+                live_query = f'site:{clean_input} "write for us" OR "guest post" OR "submit article" OR "contribute" OR "author guidelines"'
+                
+                try:
+                    search_results = list(DDGS().text(live_query, max_results=5))
+                    if search_results:
+                        st.success(f"Found potential publishing and guideline pages for **{target_site}**:")
+                        for r in search_results:
+                            with st.container(border=True):
+                                st.markdown(f"#### {r['title']}")
+                                st.caption(r.get("body", ""))
+                                st.link_button("🔗 View Guideline / Submission Page", r["href"], use_container_width=True)
+                    else:
+                        st.warning(f"No explicit guest post or article submission pages were found indexed for `{clean_input}`. They may require pitching directly via their contact/editorial page.")
+                except Exception as e:
+                    st.error(f"Lookup failed: {e}")
