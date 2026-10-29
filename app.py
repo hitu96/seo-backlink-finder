@@ -7,34 +7,55 @@ from duckduckgo_search import DDGS
 st.set_page_config(page_title="Off-Page SEO Backlink Finder", page_icon="🔗", layout="wide")
 
 st.title("🔗 Off-Page SEO High-DA Backlink Finder")
-st.caption("Find verified High-DA free backlink sites, harvest live niche opportunities, and check any website's guest posting eligibility.")
+st.caption("Find verified free content-publishing sites, harvest live niche opportunities, and check guest posting eligibility.")
 
-# Curated Database of Verified High-DA Free Backlink Sites
+# Expanded Curated Database of Verified Content & Backlink Sites (DA 20+)
 VERIFIED_SITES = [
+    # High-DA Tech & Content Platforms
     {"Site": "GitHub", "DA": 96, "Spam": "1%", "Type": "Profile / Repo Link", "Link_Type": "NoFollow", "Niche": "Tech / General", "URL": "https://github.com/"},
     {"Site": "Medium", "DA": 95, "Spam": "1%", "Type": "Web 2.0 / Article", "Link_Type": "NoFollow", "Niche": "All Niches", "URL": "https://medium.com/"},
     {"Site": "Sites.Google", "DA": 97, "Spam": "1%", "Type": "Web 2.0", "Link_Type": "DoFollow", "Niche": "All Niches", "URL": "https://sites.google.com/"},
-    {"Site": "Trustpilot", "DA": 93, "Spam": "1%", "Type": "Business Directory", "Link_Type": "NoFollow", "Niche": "Business / SaaS / E-com", "URL": "https://www.trustpilot.com/"},
-    {"Site": "Crunchbase", "DA": 91, "Spam": "1%", "Type": "Business Directory", "Link_Type": "NoFollow", "Niche": "Startups / Business", "URL": "https://www.crunchbase.com/"},
     {"Site": "WordPress.com", "DA": 94, "Spam": "1%", "Type": "Web 2.0", "Link_Type": "DoFollow", "Niche": "All Niches", "URL": "https://wordpress.com/"},
     {"Site": "Blogger", "DA": 99, "Spam": "1%", "Type": "Web 2.0", "Link_Type": "DoFollow", "Niche": "All Niches", "URL": "https://www.blogger.com/"},
+    {"Site": "Substack", "DA": 93, "Spam": "1%", "Type": "Newsletter / Article", "Link_Type": "DoFollow", "Niche": "Newsletters / Writing / General", "URL": "https://substack.com/"},
+    {"Site": "LinkedIn Articles", "DA": 98, "Spam": "1%", "Type": "Professional Publishing", "Link_Type": "DoFollow", "Niche": "B2B / Career / Business", "URL": "https://www.linkedin.com/pulse/"},
+    {"Site": "Quora", "DA": 93, "Spam": "1%", "Type": "Q&A / Content Answer", "Link_Type": "NoFollow", "Niche": "All Niches", "URL": "https://www.quora.com/"},
     {"Site": "HubPages", "DA": 93, "Spam": "2%", "Type": "Guest Article", "Link_Type": "DoFollow", "Niche": "General / How-To", "URL": "https://discover.hubpages.com/"},
-    {"Site": "Product Hunt", "DA": 91, "Spam": "1%", "Type": "Product Directory", "Link_Type": "DoFollow", "Niche": "Tech / Tools / SaaS", "URL": "https://www.producthunt.com/"},
-    {"Site": "Behance", "DA": 92, "Spam": "1%", "Type": "Profile Creation", "Link_Type": "DoFollow", "Niche": "Design / Agency / Creative", "URL": "https://www.behance.net/"},
-    {"Site": "Dribbble", "DA": 92, "Spam": "1%", "Type": "Profile Creation", "Link_Type": "NoFollow", "Niche": "Design / Tech / Agency", "URL": "https://dribbble.com/"},
     {"Site": "Dev.to", "DA": 84, "Spam": "1%", "Type": "Guest Post / Article", "Link_Type": "DoFollow", "Niche": "Tech / Coding / SaaS", "URL": "https://dev.to/"},
     {"Site": "HackerNoon", "DA": 88, "Spam": "1%", "Type": "Guest Post / Article", "Link_Type": "DoFollow (Bio)", "Niche": "Tech / Startups / AI", "URL": "https://hackernoon.com/"},
     {"Site": "Hashnode", "DA": 78, "Spam": "1%", "Type": "Web 2.0 / Tech Blog", "Link_Type": "DoFollow", "Niche": "Tech / Development", "URL": "https://hashnode.com/"},
+    {"Site": "Product Hunt", "DA": 91, "Spam": "1%", "Type": "Product Directory", "Link_Type": "DoFollow", "Niche": "Tech / Tools / SaaS", "URL": "https://www.producthunt.com/"},
+    {"Site": "Behance", "DA": 92, "Spam": "1%", "Type": "Profile Creation", "Link_Type": "DoFollow", "Niche": "Design / Agency / Creative", "URL": "https://www.behance.net/"},
+    {"Site": "Dribbble", "DA": 92, "Spam": "1%", "Type": "Profile Creation", "Link_Type": "NoFollow", "Niche": "Design / Tech / Agency", "URL": "https://dribbble.com/"},
+    {"Site": "About.me", "DA": 90, "Spam": "1%", "Type": "Profile Creation", "Link_Type": "DoFollow", "Niche": "Personal / Founders", "URL": "https://about.me/"},
+    {"Site": "Linktree", "DA": 93, "Spam": "1%", "Type": "Profile / Social Bio", "Link_Type": "DoFollow", "Niche": "All Niches", "URL": "https://linktr.ee/"},
+    {"Site": "Trustpilot", "DA": 93, "Spam": "1%", "Type": "Business Directory", "Link_Type": "NoFollow", "Niche": "Business / SaaS / E-com", "URL": "https://www.trustpilot.com/"},
+    {"Site": "Crunchbase", "DA": 91, "Spam": "1%", "Type": "Business Directory", "Link_Type": "NoFollow", "Niche": "Startups / Business", "URL": "https://www.crunchbase.com/"},
     {"Site": "G2", "DA": 80, "Spam": "1%", "Type": "Business Directory", "Link_Type": "NoFollow", "Niche": "Software / B2B Services", "URL": "https://www.g2.com/"},
     {"Site": "Hotfrog", "DA": 81, "Spam": "2%", "Type": "Business Directory", "Link_Type": "NoFollow", "Niche": "Local Business / Services", "URL": "https://www.hotfrog.com/"},
     {"Site": "PRLog", "DA": 76, "Spam": "2%", "Type": "Free Press Release", "Link_Type": "NoFollow", "Niche": "Business / News", "URL": "https://www.prlog.org/"},
-    {"Site": "About.me", "DA": 90, "Spam": "1%", "Type": "Profile Creation", "Link_Type": "DoFollow", "Niche": "Personal / Founders", "URL": "https://about.me/"},
-    {"Site": "Linktree", "DA": 93, "Spam": "1%", "Type": "Profile / Social Bio", "Link_Type": "DoFollow", "Niche": "All Niches", "URL": "https://linktr.ee/"},
     {"Site": "AlternativeTo", "DA": 84, "Spam": "1%", "Type": "Product Directory", "Link_Type": "NoFollow", "Niche": "Apps / Software / Web Tools", "URL": "https://alternativeto.net/"},
     {"Site": "Storeboard", "DA": 64, "Spam": "3%", "Type": "Business Directory", "Link_Type": "DoFollow", "Niche": "Business / E-com", "URL": "https://www.storeboard.com/"},
     {"Site": "IndiBlogHub", "DA": 62, "Spam": "2%", "Type": "Blog Directory / Guest Post", "Link_Type": "DoFollow", "Niche": "India / Blogging / General", "URL": "https://indibloghub.com/"},
     {"Site": "Justdial", "DA": 82, "Spam": "1%", "Type": "Local Citation", "Link_Type": "NoFollow", "Niche": "India Local Business", "URL": "https://www.justdial.com/"},
-    {"Site": "IndiaMART", "DA": 79, "Spam": "1%", "Type": "Business Directory", "Link_Type": "NoFollow", "Niche": "B2B / Suppliers", "URL": "https://www.indiamart.com/"}
+    {"Site": "IndiaMART", "DA": 79, "Spam": "1%", "Type": "Business Directory", "Link_Type": "NoFollow", "Niche": "B2B / Suppliers", "URL": "https://www.indiamart.com/"},
+    # Additional Free Content / Article Publishing Platforms (DA 20-75)
+    {"Site": "Telegraph (Telegra.ph)", "DA": 79, "Spam": "1%", "Type": "Instant Open Publishing", "Link_Type": "DoFollow", "Niche": "All Niches / Anonymous Articles", "URL": "https://telegra.ph/"},
+    {"Site": "Notion (Public Pages)", "DA": 91, "Spam": "1%", "Type": "Web Doc / Article Page", "Link_Type": "DoFollow", "Niche": "All Niches / Guides", "URL": "https://www.notion.so/"},
+    {"Site": "Coda.io", "DA": 83, "Spam": "1%", "Type": "Interactive Publish", "Link_Type": "DoFollow", "Niche": "Docs / Guides / Portfolios", "URL": "https://coda.io/"},
+    {"Site": "Vocal.media", "DA": 74, "Spam": "2%", "Type": "Article Publishing", "Link_Type": "DoFollow", "Niche": "Stories / Opinion / General", "URL": "https://vocal.media/"},
+    {"Site": "ArticleCube", "DA": 48, "Spam": "3%", "Type": "Free Article Directory", "Link_Type": "DoFollow", "Niche": "General Articles", "URL": "https://www.articlecube.com/"},
+    {"Site": "EzineArticles (Archive)", "DA": 65, "Spam": "4%", "Type": "Article Directory", "Link_Type": "NoFollow", "Niche": "General Articles", "URL": "https://ezinearticles.com/"},
+    {"Site": "SelfGrowth", "DA": 58, "Spam": "3%", "Type": "Expert Article Directory", "Link_Type": "DoFollow", "Niche": "Self Help / Business / Health", "URL": "https://www.selfgrowth.com/"},
+    {"Site": "SlideShare", "DA": 94, "Spam": "1%", "Type": "Document / PDF Sharing", "Link_Type": "NoFollow", "Niche": "Presentations / Infographics", "URL": "https://www.slideshare.net/"},
+    {"Site": "Scribd", "DA": 93, "Spam": "1%", "Type": "Document Hosting", "Link_Type": "NoFollow", "Niche": "PDFs / E-books / Guides", "URL": "https://www.scribd.com/"},
+    {"Site": "Issuu", "DA": 91, "Spam": "1%", "Type": "Digital Publishing / E-book", "Link_Type": "NoFollow", "Niche": "Magazines / Catalogs / PDFs", "URL": "https://issuu.com/"},
+    {"Site": "Tumblr", "DA": 88, "Spam": "2%", "Type": "Microblogging / Web 2.0", "Link_Type": "DoFollow", "Niche": "Creative / Niche Blogs", "URL": "https://www.tumblr.com/"},
+    {"Site": "Wix (Free Sites)", "DA": 93, "Spam": "1%", "Type": "Web 2.0 / Blog Site", "Link_Type": "DoFollow", "Niche": "All Niches", "URL": "https://www.wix.com/"},
+    {"Site": "Strikingly", "DA": 85, "Spam": "1%", "Type": "Landing Page / Blog", "Link_Type": "DoFollow", "Niche": "Portfolio / Business", "URL": "https://www.strikingly.com/"},
+    {"Site": "Penzu", "DA": 72, "Spam": "2%", "Type": "Online Journal / Blog", "Link_Type": "DoFollow", "Niche": "Personal / Stories", "URL": "https://penzu.com/"},
+    {"Site": "Steemit", "DA": 70, "Spam": "2%", "Type": "Blockchain Blogging", "Link_Type": "DoFollow", "Niche": "Crypto / Tech / General", "URL": "https://steemit.com/"},
+    {"Site": "Read.cash", "DA": 54, "Spam": "2%", "Type": "Article Blogging", "Link_Type": "DoFollow", "Niche": "Crypto / Tech / Opinions", "URL": "https://read.cash/"}
 ]
 
 # Sidebar for optional free OpenPageRank API Key
@@ -63,25 +84,26 @@ def get_live_authority(domains, api_key):
     return {}
 
 tab1, tab2, tab3 = st.tabs([
-    "🏆 Verified High-DA Backlink Vault", 
+    "🏆 Verified Content & Backlink Vault", 
     "🔍 Live Niche Backlink Harvester", 
     "✍️ Site Article / Guest Post Checker"
 ])
 
 # TAB 1: CURATED HIGH-DA SITES
 with tab1:
-    st.subheader("Verified High-DA Free Backlink Submission Sites")
+    st.subheader("Verified Free Content-Publishing & Backlink Sites")
     df_verified = pd.DataFrame(VERIFIED_SITES)
 
     c1, c2, c3, c4 = st.columns(4)
     with c1:
-        min_da = st.slider("Minimum DA Score", 50, 95, 60)
+        # Minimum DA slider starts at 20 now to include more free publishing sites
+        min_da = st.slider("Minimum DA Score", 20, 95, 40)
     with c2:
         link_filter = st.multiselect("Link Type", ["DoFollow", "NoFollow", "DoFollow (Bio)"], default=["DoFollow", "NoFollow", "DoFollow (Bio)"])
     with c3:
         cat_filter = st.multiselect("Category", df_verified["Type"].unique(), default=df_verified["Type"].unique())
     with c4:
-        search_txt = st.text_input("Search by Niche or Name", placeholder="e.g., Tech, India, Business")
+        search_txt = st.text_input("Search by Niche or Name", placeholder="e.g., Tech, Article, Business")
 
     filtered = df_verified[
         (df_verified["DA"] >= min_da) &
@@ -95,7 +117,7 @@ with tab1:
         ]
 
     filtered = filtered.sort_values(by="DA", ascending=False)
-    st.write(f"Showing **{len(filtered)}** verified high-authority platforms:")
+    st.write(f"Showing **{len(filtered)}** verified content platforms:")
 
     for _, row in filtered.iterrows():
         with st.container(border=True):
@@ -106,7 +128,7 @@ with tab1:
                 st.markdown(f"**Category:** {row['Type']} &nbsp;•&nbsp; **Best For:** {row['Niche']} &nbsp;•&nbsp; **Spam Score:** {row['Spam']}")
             with col_b:
                 st.write("")
-                st.link_button("🚀 Go to Site", row["URL"], use_container_width=True, type="primary")
+                st.link_button("🚀 Start Writing", row["URL"], use_container_width=True, type="primary")
 
 # TAB 2: LIVE NICHE BACKLINK HARVESTER
 with tab2:
@@ -177,7 +199,7 @@ with tab3:
     st.write("Type a website name or domain below to verify if you can publish articles, write blogs, or submit guest posts on it.")
 
     with st.form("site_checker_form"):
-        target_site = st.text_input("Enter Website Name or Domain", placeholder="e.g. dev.to, medium.com, techcrunch.com")
+        target_site = st.text_input("Enter Website Name or Domain", placeholder="e.g. telegra.ph, dev.to, medium.com")
         check_submitted = st.form_submit_button("🔍 Check Website Eligibility", type="primary", use_container_width=True)
 
     if check_submitted:
@@ -190,7 +212,7 @@ with tab3:
             matched_vault = [s for s in VERIFIED_SITES if clean_input in s["Site"].lower() or clean_input in s["URL"].lower()]
 
             if matched_vault:
-                st.success(f"✅ Found **{target_site}** in our Verified High-DA Vault!")
+                st.success(f"✅ Found **{target_site}** in our Verified Content Vault!")
                 for site in matched_vault:
                     with st.container(border=True):
                         badge = "🟢 DoFollow" if "DoFollow" in site["Link_Type"] else "🔵 NoFollow"
